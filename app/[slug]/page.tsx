@@ -1,0 +1,9 @@
+import Link from 'next/link';
+import {notFound} from 'next/navigation';
+import {Header,Footer} from '../page';
+import pages from '../../data/pages.json';
+type Block = {type:string;text?:string;src?:string};
+const titles:Record<string,string>={about:'Our story',contact:'Contact us',products:'Our products','continuous-fence':'Continuous fence','cattleman-hd':'Cattleman HD','sheep-and-goat-panels':'Sheep & goat panels','steel-pipe':'Steel pipe','privacy-policy':'Privacy policy','terms-of-use':'Terms of use'};
+export function generateStaticParams(){return Object.keys(titles).map(slug=>({slug}))}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}){const {slug}=await params;return {title:titles[slug]||'DuBose'}}
+export default async function Page({params}:{params:Promise<{slug:string}>}) {const {slug}=await params; if(!titles[slug])notFound();const blocks=(pages as Record<string,Block[]>)[slug]||[];return <><Header/><main><section className="page-hero"><div className="wrap"><p className="eyebrow">DuBose Pipe &amp; Gate</p><h1>{titles[slug]}</h1></div></section><section className="wrap page-content"><div className="content">{blocks.map((b,i)=>b.type==='heading'?<h2 key={i}>{b.text}</h2>:b.type==='image'&&b.src?<img key={i} src={b.src} alt="DuBose livestock equipment"/>:b.text?<p key={i}>{b.text}</p>:null)}{slug==='products'&&<div className="product-links">{[['Cattleman HD','cattleman-hd'],['Continuous fence','continuous-fence'],['Sheep & goat panels','sheep-and-goat-panels'],['Steel pipe','steel-pipe']].map(([t,u])=><Link key={u} href={'/'+u}>{t} →</Link>)}</div>}</div><aside><h3>Let’s talk about your project.</h3><p>Call or email our team to discuss your needs.</p><a className="button" href="tel:5127523200">512-752-3200</a><p><a href="mailto:retail.dubosepipe@gmail.com">retail.dubosepipe@gmail.com</a></p><p>14620 US-183<br/>Lometa, TX 76853</p></aside></section></main><Footer/></>}

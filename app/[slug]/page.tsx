@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
-import {Header,Footer} from '../page';
+import {Header,Footer} from '../../components/site-layout';
 import pages from '../../data/pages.json';
 type Block = {type:string;text?:string;src?:string};
 const titles:Record<string,string>={about:'Our story',contact:'Contact us',products:'Our products','continuous-fence':'Continuous fence','cattleman-hd':'Cattleman HD','sheep-and-goat-panels':'Sheep & goat panels','steel-pipe':'Steel pipe','privacy-policy':'Privacy policy','terms-of-use':'Terms of use'};
